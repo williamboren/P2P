@@ -50,13 +50,4 @@ namespace P2P
             }
         }
     }
-
-    static void CreateClient()
-    {
-        Client client = new Client("192.168.0.18", 3333);
-        Console.WriteLine("Enter a message to send:");
-        string msg = Console.ReadLine();
-        if (client.SendData(msg)) Console.WriteLine("Success");
-        else Console.WriteLine("Failed to send data");
-    }
 }
