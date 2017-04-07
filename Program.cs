@@ -32,8 +32,11 @@ namespace P2P
 
             string data = JsonConvert.SerializeObject(player);
             
-            if (client.SendData(data)) Console.WriteLine("Success");
-            else Console.WriteLine("Failed to send data");
+            if (client.Connected)
+            {
+                if (client.SendData(data)) Console.WriteLine("Success");
+                else Console.WriteLine("Failed to send data");
+            }
         }
     }
 

@@ -14,13 +14,24 @@ namespace P2P
         private string ipaddr;
         private TcpClient client;
 
+        public bool Connected { get { return client.Connected; } }
+
         public Client(string a, int p)
         {
             this.port = p;
             this.ipaddr = a;
 
-            client = new TcpClient(a, p);
-            Console.WriteLine("Client started and connected");
+            try
+            {
+                client = new TcpClient(a, p);
+                Console.WriteLine("Client started and connected");
+            }
+            catch (SocketException e)
+            {
+                LogError("Connection error: " + e.ErrorCode + ": " + e.Message);
+                client = new TcpClient();
+            }
+            
         }
 
         public bool SendData(string data)
@@ -42,12 +53,19 @@ namespace P2P
             }
             catch (ArgumentNullException e)
             {
+                LogError("Write error: " + e.Message);
                 return false;
             }
             catch (SocketException e)
             {
+                LogError("Write error: " + e.ErrorCode + ": " + e.Message);
                 return false;
             }
+        }
+
+        private void LogError(string e)
+        {
+            Console.WriteLine(e);
         }
     }
 }
