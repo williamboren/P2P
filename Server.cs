@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Net;
 using System.Threading;
+using Newtonsoft.Json;
 
 namespace P2P
 {
@@ -16,6 +17,7 @@ namespace P2P
         private delegate void GetData(string data); //delegate to handle events
         private List<string> connectedClients = new List<string>(); // list to keep track of connected clients
         private int port;
+        public event EventHandler<ReceivedDataEventArgs> ReceivedData;
 
         // konstruktor, tar en string och en int
         public Server(int p)
@@ -51,9 +53,14 @@ namespace P2P
 
                 while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
                 {
-                    data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+                    data = Encoding.ASCII.GetString(bytes, 0, i);
+
+                    ReceivedDataEventArgs e = new ReceivedDataEventArgs();
+                    e.Data = data;
+
+                    ReceivedData?.Invoke(this, e); // that's a neat shortcut tbh
+
                     //dataDelegate(data);
-                    Console.WriteLine("Received: {0}", data);
                 }
                 stream.Close();
                 lClient.Close();
@@ -86,5 +93,10 @@ namespace P2P
             listenerThread.Abort();
             listener.Stop();
         }
+    }
+
+    public class ReceivedDataEventArgs : EventArgs
+    {
+        public string Data { get; set; }
     }
 }

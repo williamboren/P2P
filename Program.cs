@@ -19,6 +19,7 @@ namespace P2P
         static void CreateServer()
         {
             Server server = new Server(3333); // creates a new server and starts listening for connections on the specified port
+            server.ReceivedData += HandleData;
         }
 
         static void CreateClient(string ip, int port)
@@ -37,6 +38,12 @@ namespace P2P
                 if (client.SendData(data)) Console.WriteLine("Success");
                 else Console.WriteLine("Failed to send data");
             }
+        }
+
+        static void HandleData(object s, ReceivedDataEventArgs e)
+        {
+            object data = JsonConvert.DeserializeObject(e.Data);
+            Console.WriteLine(data);
         }
     }
 
