@@ -11,8 +11,8 @@ namespace P2P
     {
         static void Main(string[] args)
         {
-            //CreateServer();
-            CreateClient("127.0.0.1", 3333);
+            CreateServer();
+            //CreateClient("127.0.0.1", 3333);
             Console.ReadKey();
         }
 
@@ -26,10 +26,11 @@ namespace P2P
         {
             Client client = new Client(ip, port);
 
-            List<string> i = new List<string>();
-            i.Add("sword");
-            i.Add("potion");
-            Player player = new Player(100, "atk", i, 50, 50, 0.5f, 0.2f);
+            List<string> items = new List<string>();
+            items.Add("sword");
+            items.Add("potion");
+            Player player = new Player(100, "atk", items, 50, 50, 0.5f, 0.2f);
+            player.TakeDamage(10);
 
             string data = JsonConvert.SerializeObject(player);
             
@@ -42,8 +43,10 @@ namespace P2P
 
         static void HandleData(object s, ReceivedDataEventArgs e)
         {
-            object data = JsonConvert.DeserializeObject(e.Data);
-            Console.WriteLine(data);
+            Player data = JsonConvert.DeserializeObject<Player>(e.Data);
+            Console.WriteLine(data.HealthPoints);
+            data.TakeDamage(20);
+            Console.WriteLine(data.HealthPoints);
         }
     }
 
