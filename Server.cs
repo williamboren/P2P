@@ -13,7 +13,7 @@ namespace P2P
     {
         private TcpListener listener; // a server to accept connections and data
         private Thread listenerThread; // a thread to handle incoming data, would interrupt all other operations otherwise
-        private delegate void GetData(string data); // delegate to handle events
+        private delegate void GetData(string data); //delegate to handle events
         private List<string> connectedClients = new List<string>(); // list to keep track of connected clients
         private int port;
 
@@ -25,6 +25,7 @@ namespace P2P
             // creates a server/listener that listens on any IP address
             listener = new TcpListener(IPAddress.Any, p);
             listener.Start();
+            Console.WriteLine("Server started");
 
             // creates the server thread and sets it up
             ThreadStart start = new ThreadStart(Listener);
@@ -56,6 +57,7 @@ namespace P2P
                 }
                 stream.Close();
                 lClient.Close();
+                Console.WriteLine("Connection closed");
             }
         }
 

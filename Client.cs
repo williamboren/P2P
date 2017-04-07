@@ -20,6 +20,7 @@ namespace P2P
             this.ipaddr = a;
 
             client = new TcpClient(a, p);
+            Console.WriteLine("Client started and connected");
         }
 
         public bool SendData(string data)
@@ -32,7 +33,6 @@ namespace P2P
                 if (client.Connected)
                 {
                     byte[] d = System.Text.Encoding.ASCII.GetBytes(data);
-
                     stream.Write(d, 0, d.Length);
                 }
 
