@@ -11,14 +11,14 @@ namespace P2P
     {
         static void Main(string[] args)
         {
-            CreateServer();
+            CreateServer(3333);
             //CreateClient("127.0.0.1", 3333);
             Console.ReadKey();
         }
 
-        static void CreateServer()
+        static void CreateServer(int port)
         {
-            Server server = new Server(3333); // creates a new server and starts listening for connections on the specified port
+            Server server = new Server(port); // creates a new server and starts listening for connections on the specified port
             server.ReceivedData += HandleData;
         }
 

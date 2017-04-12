@@ -11,6 +11,27 @@ namespace P2P
     abstract class NetworkSession
     {
         protected int id;
-        
+        // yada yada more variables
+
+        public void CreateSession()
+        {
+
+        }
+    }
+
+    public class LobbySession : NetworkSession
+    {
+        public LobbySession()
+        {
+
+        }
+    }
+
+    public class GameSesison : NetworkSession
+    {
+        public GameSesison()
+        {
+
+        }
     }
 }
